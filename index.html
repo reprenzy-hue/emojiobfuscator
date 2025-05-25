@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Tentang Fian</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      overflow-x: hidden;
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    header {
+      padding: 30px 0;
+      text-align: center;
+      background-color: rgba(0,0,0,0.3);
+      backdrop-filter: blur(5px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    }
+
+    header h1 {
+      font-size: 3em;
+      color: #00f7ff;
+      text-shadow: 0 0 10px #00f7ff;
+      animation: slideDown 1s ease;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: rgba(255,255,255,0.05);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      transition: transform 0.3s;
+    }
+
+    .container:hover {
+      transform: scale(1.02);
+    }
+
+    .info {
+      text-align: center;
+    }
+
+    .info p {
+      font-size: 1.2em;
+      margin: 15px 0;
+    }
+
+    .highlight {
+      color: #00f7ff;
+      font-weight: bold;
+    }
+
+    .button {
+      margin-top: 30px;
+      display: inline-block;
+      padding: 12px 25px;
+      background: #00f7ff;
+      color: #000;
+      font-weight: bold;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .button:hover {
+      background: #00c1d4;
+      transform: scale(1.1);
+    }
+
+    footer {
+      margin-top: 60px;
+      text-align: center;
+      color: #ccc;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Yo! Aku Fian</h1>
+  </header>
+
+  <div class="container">
+    <div class="info">
+      <p>Aku tinggal di <span class="highlight">Parakan, Temanggung</span></p>
+      <p>Nama Roblox: <span class="highlight">fian_gaming953</span></p>
+      <p>Game favorit: <span class="highlight">Evade</span> (Level 50 broo!)</p>
+      <p>Main pake HP: <span class="highlight">Redmi A3</span></p>
+      <p>Temen mabar: <span class="highlight">zzz_194517</span> (orang Indo juga!)</p>
+      <p>Akun GitHub: <span class="highlight">fiangg20</span> & <span class="highlight">randomquery16</span></p>
+      <a href="#" class="button">Ajak Mabar Sekarang!</a>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Website by Fian. All rights reserved.
+  </footer>
+
+</body>
+  </html>
