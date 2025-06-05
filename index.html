@@ -1,194 +1,107 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>EmojiScript Obfuscator</title>
+  <title>Lua Hardcore Obfuscator</title>
   <style>
-    * {
-      box-sizing: border-box;
-      transition: 0.4s ease all;
-    }
     body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      background: #000;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      overflow-x: hidden;
+      font-family: monospace;
+      background: #1e1e1e;
+      color: #fff;
+      padding: 20px;
     }
-    header {
-      background: #fff;
-      color: #000;
-      padding: 1rem;
-      text-align: center;
-      font-size: 2rem;
-      font-weight: bold;
-      letter-spacing: 2px;
-      transform: translateY(-100%);
-      animation: slideDown 1s ease forwards;
+    h1 {
+      color: #00ff88;
     }
-    @keyframes slideDown {
-      to { transform: translateY(0); }
+    input, button {
+      padding: 10px;
+      margin-top: 10px;
+      font-family: monospace;
     }
-    main {
-      flex: 1;
-      padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-    }
-    @keyframes riseUp {
-      from { opacity: 0; transform: translateY(100px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .warning {
-      background-color: #ff4444;
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      display: none;
-    }
-    input[type="file"] {
-      padding: 0.5rem;
-      background-color: #111;
-      color: white;
-      border: 1px solid white;
-      border-radius: 5px;
-      animation: riseUp 0.6s ease forwards;
-    }
-    button {
-      padding: 0.8rem 2rem;
-      font-size: 1.1rem;
-      background-color: #fff;
-      color: #000;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 0 10px white;
-      animation: riseUp 1s ease forwards;
-    }
-    button:hover {
-      background-color: #000;
-      color: white;
-      box-shadow: 0 0 15px #888;
-    }
-    button:disabled {
-      background-color: gray;
-      color: #ccc;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-    #instructions {
-      max-width: 600px;
-      margin-top: 2rem;
-      opacity: 0;
-      transform: translateY(40px);
-      animation: fadeIn 2s ease forwards;
-    }
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    footer {
-      padding: 1rem;
-      background-color: #111;
-      color: #aaa;
-      text-align: center;
-      font-size: 0.9rem;
-      animation: riseUp 1.4s ease forwards;
+    #result {
+      white-space: pre-wrap;
+      background: #111;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #333;
     }
   </style>
 </head>
 <body>
-  <header>EmojiScript Obfuscator</header>
-  <main>
-    <div class="warning" id="warn">⚠️ Only .lua or .txt files are allowed 😤</div>
-    <input type="file" id="fileInput" accept=".lua,.txt">
-    <button id="obfuscateBtn" disabled>Obfuscate 🔐</button><div id="instructions">
-  <h2>How to Use:</h2>
-  <p>
-    1. Click the file picker above and choose a <strong>.lua</strong> or <strong>.txt</strong> file containing your Roblox script.<br><br>
-    2. Once the correct file is selected, the "Obfuscate" button will be enabled.<br><br>
-    3. Click the "Obfuscate" button. Your script will be encrypted with emojis and wrapped with a <code>loadstring</code> function using a decoder hosted online.<br><br>
-    4. The result will be downloaded automatically as a new randomized file.<br><br>
-    5. You can run the output in Roblox Studio or inject it in supported executors that allow `loadstring()`.<br><br>
-    ⚠️ Reminder: This tool is for fun and basic obfuscation. Don’t expect high-level security from it! 😎<br>
-  </p>
-</div>
 
-  </main>
-  <footer>
-    by luauruler26 - Emoji Obfuscator 2025
-  </footer>  <script>
-    const charset = {
-      "a": ["😀", "😺", "😼"], "b": ["😃", "😽"], "c": ["😄", "🙀"],
-      "d": ["😁", "😹"], "e": ["😆", "😸"], "f": ["😅", "🙈"],
-      "g": ["😂", "🙉"], "h": ["🤣", "🙊"], "i": ["😊", "😿"],
-      "j": ["😇", "😾"], "k": ["🙂", "🙃"], "l": ["🙃", "😺"],
-      "m": ["😉", "😼"], "n": ["😌", "😽"], "o": ["😍", "🙀"],
-      "p": ["😘", "😹"], "q": ["😗", "😸"], "r": ["😙", "🙈"],
-      "s": ["😚", "🙉"], "t": ["😋", "🙊"], "u": ["😛", "😿"],
-      "v": ["😝", "😾"], "w": ["😜", "🙃"], "x": ["🤪", "😺"],
-      "y": ["🤨", "😼"], "z": ["🧐", "😽"], " ": ["😶", "🫥"],
-      "(": ["🥴"], ")": ["🤐"], "=": ["🥵"], "+": ["🥶"],
-      "-": ["😰"], "*": ["😱"], "/": ["😳"], "0": ["🙀"],
-      "1": ["😼"], "2": ["😽"], "3": ["🙈"], "4": ["🙉"],
-      "5": ["🙊"], "6": ["💀"], "7": ["☠️"], "8": ["👻"],
-      "9": ["👽"], ".": ["🛸"], ",": ["🌀"], "'": ["🔥"],
-      '"': ["💥"], "\n": ["🌊"], ":": ["🕐", "⏰", "⏱️"]
-    };
+  <h1>🔥 Lua Obfuscator Hardcore Mode</h1>
 
-    const fileInput = document.getElementById("fileInput");
-    const obfuscateBtn = document.getElementById("obfuscateBtn");
-    const warn = document.getElementById("warn");
+  <p><b>Cara pakai:</b><br>
+  1. Pilih file Lua / TXT<br>
+  2. Klik "Obfuscate"<br>
+  3. Unduh hasilnya 💀</p>
 
-    fileInput.addEventListener("change", () => {
-      const file = fileInput.files[0];
-      const ext = file?.name.split('.').pop().toLowerCase();
-      if (file && (ext === 'lua' || ext === 'txt')) {
-        obfuscateBtn.disabled = false;
-        warn.style.display = "none";
-      } else {
-        obfuscateBtn.disabled = true;
-        warn.style.display = "block";
+  <input type="file" id="fileInput" accept=".lua,.txt"><br>
+  <button onclick="obfuscateFile()">Obfuscate</button>
+  <button id="downloadBtn" style="display:none;" onclick="downloadFile()">Download Hasil</button>
+
+  <div id="result"></div>
+
+  <script>
+    let obfuscatedCode = "";
+
+    function xorEncrypt(text, key) {
+      let result = '';
+      for (let i = 0; i < text.length; i++) {
+        result += ('0' + (text.charCodeAt(i) ^ key).toString(16)).slice(-2);
       }
-    });
-
-    function getRandomEmoji(char) {
-      const emojis = charset[char.toLowerCase()];
-      if (emojis) return emojis[Math.floor(Math.random() * emojis.length)];
-      return char;
+      return result;
     }
 
-    function emojiEncode(content) {
-      return content.split("").map(c => getRandomEmoji(c)).join("");
+    function buildLoader(hex, key) {
+      return `
+local _ENV = getfenv()
+local z = "${hex}"
+local k = ${key}
+local d = ""
+for i = 1, #z - 1, 2 do
+  local byte = tonumber(z:sub(i, i+1), 16)
+  d = d .. string.char(bit32.bxor(byte, k))
+end
+load(d)()
+      `.trim();
     }
 
-    function download(content, filename) {
-      const a = document.createElement("a");
-      const blob = new Blob([content], { type: "text/plain" });
-      const url = URL.createObjectURL(blob);
-      a.href = url;
-      a.download = filename;
-      a.click();
-      URL.revokeObjectURL(url);
-    }
+    function obfuscateFile() {
+      const fileInput = document.getElementById('fileInput');
+      if (!fileInput.files.length) {
+        alert("Pilih file dulu bang 😭");
+        return;
+      }
 
-    obfuscateBtn.addEventListener("click", () => {
       const file = fileInput.files[0];
       const reader = new FileReader();
-      reader.onload = () => {
-        const encoded = emojiEncode(reader.result);
-        const finalScript = `loadstring(game:HttpGet(\"https://glot.io/snippets/h76idkfka7/raw/eksi.ts\"))()(\"${encoded}\")`;
-        const randomName = `obfuscated_${Math.random().toString(36).substring(2, 10)}.lua`;
-        download(finalScript, randomName);
+
+      reader.onload = function(e) {
+        const raw = e.target.result;
+        const key = 157;
+        const hex = xorEncrypt(raw, key);
+        obfuscatedCode = buildLoader(hex, key);
+
+        document.getElementById('result').textContent = obfuscatedCode;
+        document.getElementById('downloadBtn').style.display = 'inline-block';
       };
+
       reader.readAsText(file);
-    });
-  </script></body>
+    }
+
+    function downloadFile() {
+      const blob = new Blob([obfuscatedCode], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = "obfuscated.lua";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  </script>
+
+</body>
 </html>
