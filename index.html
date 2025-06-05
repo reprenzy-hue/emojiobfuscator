@@ -52,19 +52,19 @@
       return result;
     }
 
-    function buildLoader(hex, key) {
-      return `
+function buildLoader(hex, key) {
+  return `
 local _ENV = getfenv()
 local z = "${hex}"
 local k = ${key}
 local d = ""
 for i = 1, #z - 1, 2 do
   local byte = tonumber(z:sub(i, i+1), 16)
-  d = d .. string.char(bit32.bxor(byte, k))
+  d = d .. string.char(byte ~ k)
 end
 load(d)()
-      `.trim();
-    }
+  `.trim();
+}
 
     function obfuscateFile() {
       const fileInput = document.getElementById('fileInput');
